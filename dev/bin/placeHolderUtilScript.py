@@ -23,7 +23,7 @@ __icmName__ = "newIcmScript"
 ####+END:
 
 ####+BEGIN: bx:global:timestamp:version-py :style "date"
-__version__ = "201811292941"
+__version__ = "201811305151"
 ####+END:
 
 ####+BEGIN: bx:global:icm:status-py :status "Production"
@@ -72,22 +72,9 @@ from unisos import icm
 
 from blee.icmPlayer import bleep
 
-import os
-import sys
-import subprocess
-import traceback
-import time
-import string
-import random
-import requests
-import uuid
-import datetime
-import pprint
-
 g_importedCmnds = {        # Enumerate modules from which CMNDs become invokable
     'bleep': bleep.__file__,
 }
-    
 
 ####+BEGIN: bx:icm:python:section :title "= =Framework::= ICM  Description (Overview) ="
 """
@@ -309,7 +296,7 @@ class examples(icm.Cmnd):
 
 ####+END:
         def cpsInit(): return collections.OrderedDict()
-        def menuItem(verbosity): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity=verbosity)
+        def menuItem(): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity='little')
         def execLineEx(cmndStr): icm.ex_gExecMenuItem(execLine=cmndStr)
 
         logControler = icm.LOG_Control()
@@ -320,57 +307,21 @@ class examples(icm.Cmnd):
         icm.G_commonBriefExamples()
 
         bleep.examples_icmBasic()
-
-        apiUrl_reposOfUser = "https://api.github.com/users/mohsenBanan/repos"
-        apiUrl_orgsOfUser = "https://api.github.com/users/mohsenBanan/orgs"
-        apiUrl_oneOrg = "https://api.github.com/orgs/ByStar"
-        apiUrl_oneRepo = "https://api.github.com/orgs/ByStar"                      
         
+####+BEGIN: bx:icm:python:cmnd:subSection :title "Dev And Testing"
+        """
+**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *Dev And Testing*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
+"""
+####+END:
+
+        icm.cmndExampleMenuChapter('*General Dev and Testing IIFs*')
+
+        cmndName = "unitTest"
         
-####+BEGIN: bx:icm:python:cmnd:subSection :title "List Repos Of Users"
-        """
-**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *List Repos Of User*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
-"""
-####+END:
+        cmndArgs = ""; cps = cpsInit(); # cps['icmsPkgName'] = icmsPkgName 
+        menuItem()
+        icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity='full')        
 
-####+BEGIN: bx:icm:python:cmnd:subSection :title "List Orgs Of Users"
-        """
-**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *List Orgs Of Users*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
-"""
-####+END:
-
-        icm.cmndExampleMenuChapter('*List Orgs Of Users*')
-
-        cmndName = "listOrgsOfUsers"
-        cmndArgs = "https://api.github.com/users/mohsenBanan/orgs"; cps = cpsInit()
-        menuItem(verbosity='none')
-
-####+BEGIN: bx:icm:python:cmnd:subSection :title "List Repos Of Orgs"
-        """
-**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *List Repos Of Orgs*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
-"""
-####+END:
-        icm.cmndExampleMenuChapter('*List Repos Of Orgs*')
-
-        cmndName = "listReposOfOrgs"
-        
-        cmndArgs = "https://api.github.com/orgs/ByStar"; cps = cpsInit()
-        menuItem(verbosity='none')
-
-####+BEGIN: bx:icm:python:cmnd:subSection :title "Repos Info"
-        """
-**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *Repos Info*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
-"""
-####+END:
-
-
-####+BEGIN: bx:icm:python:cmnd:subSection :title "Pipeline Examples"
-        """
-**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *Pipeline Examples*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
-"""
-####+END:
-
-        
         
 ####+BEGIN: bx:icm:python:cmnd:subSection :title "Remain In Sycn With Template"
         """
@@ -408,14 +359,14 @@ class examples(icm.Cmnd):
 """
 ####+END:
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "listReposOfUsers" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "9999" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "unitTest" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "1" :asFunc "" :interactiveP ""
 """
-*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  ICM-Cmnd       :: /listReposOfUsers/ parsMand= parsOpt= argsMin=0 argsMax=9999 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  ICM-Cmnd       :: /unitTest/ parsMand= parsOpt= argsMin=0 argsMax=1 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
-class listReposOfUsers(icm.Cmnd):
+class unitTest(icm.Cmnd):
     cmndParamsMandatory = [ ]
     cmndParamsOptional = [ ]
-    cmndArgsLen = {'Min': 0, 'Max': 9999,}
+    cmndArgsLen = {'Min': 0, 'Max': 1,}
 
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
@@ -438,377 +389,37 @@ class listReposOfUsers(icm.Cmnd):
         if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
             return cmndOutcome
 ####+END:
-        cmndArgs = self.cmndArgsGet("0&9999", cmndArgsSpecDict, effectiveArgsList)
 
-        for each in cmndArgs:
-            if interactive:
-                #print("""retVal = {}()""".format(each))
-                pass
+        myName=self.myName()
+        thisOutcome = icm.OpOutcome(invokerName=myName)
 
-        # headers = {'Content-type': 'application/json'}
+        print G.icmInfo
 
-        # obtainTokenBody = {}
-        # obtainTokenBody['accessKey'] = akValue
-        # obtainTokenBody['secretKey'] = skValue
+        for eachArg in effectiveArgsList:
+            icm.ANN_here("{}".format(eachArg))
 
+        print (icm.__file__)
+        print sys.path
 
-        for each in cmndArgs:
-            #continue
-            #r = requests.post(apiUrl, json=obtainTokenBody, headers=headers, verify=False)
-            r = requests.get(each)            
-            if 200 <= r.status_code < 300:
-                #pprint.pprint(r.json())
-                responseBody = r.json()
-                pprint.pprint(responseBody)
-                reposListOfOrgProc(responseBody)        
-                #respData = responseBody['data']
-                #token = respData['id']
-                #print(token)
-                #return (token)
-            else:
-                print "API error. Status code = %s, response = %s" % (str(r.status_code), str(r.text))
-                return None
+        import imp
+        print(imp.find_module('unisos/icm'))
 
-
-        return cmndOutcome.set(
-            opError=icm.OpError.Success,
-            opResults=None,
-        )
-
-####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndArgsSpec(self):
-####+END:        
-        """
-***** Cmnd Args Specification
-"""
-        cmndArgsSpecDict = icm.CmndArgsSpecDict()
-        cmndArgsSpecDict.argsDictAdd(
-            argPosition="0&9999",
-            argName="cmndArgs",
-            argChoices=[],
-            argDescription="Exec all or those specified as functions.",
-        )
-
-        return cmndArgsSpecDict
-
-
-####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndDocStr(self):
-####+END:        
-        return """
-***** TODO [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Place holder for this commands doc string.
+        @ucf.runOnceOnly
+        def echo(str):
+            print str
+            
+        echo("first")
+        echo("second")  # Should not run
+    
+        return thisOutcome
+    
+    def cmndDocStr(self): return """
+** Place holder for ICM's experimental or test code.  [[elisp:(org-cycle)][| ]]
+ You can use this Cmnd for rapid prototyping and testing of newly developed functions.
 """
 
 
-
-
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "listOrgsOfUsers" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "9999" :asFunc "" :interactiveP ""
-"""
-*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  ICM-Cmnd       :: /listOrgsOfUsers/ parsMand= parsOpt= argsMin=0 argsMax=9999 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
-"""
-class listOrgsOfUsers(icm.Cmnd):
-    cmndParamsMandatory = [ ]
-    cmndParamsOptional = [ ]
-    cmndArgsLen = {'Min': 0, 'Max': 9999,}
-
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        argsList=[],         # or Args-Input
-    ):
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs
-        else:
-            effectiveArgsList = argsList
-
-        callParamsDict = {}
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
-####+END:
-        cmndArgs = self.cmndArgsGet("0&9999", cmndArgsSpecDict, effectiveArgsList)
-
-        for each in cmndArgs:
-            if interactive:
-                #print("""retVal = {}()""".format(each))
-                pass
-
-        # headers = {'Content-type': 'application/json'}
-
-        # obtainTokenBody = {}
-        # obtainTokenBody['accessKey'] = akValue
-        # obtainTokenBody['secretKey'] = skValue
-
-
-        for each in cmndArgs:
-            #continue
-            #r = requests.post(apiUrl, json=obtainTokenBody, headers=headers, verify=False)
-            r = requests.get(each)            
-            if 200 <= r.status_code < 300:
-                #pprint.pprint(r.json())
-                responseBody = r.json()
-                pprint.pprint(responseBody)
-                reposListOfOrgProc(responseBody)        
-                #respData = responseBody['data']
-                #token = respData['id']
-                #print(token)
-                #return (token)
-            else:
-                print "API error. Status code = %s, response = %s" % (str(r.status_code), str(r.text))
-                return None
-
-
-        return cmndOutcome.set(
-            opError=icm.OpError.Success,
-            opResults=None,
-        )
-
-####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndArgsSpec(self):
-####+END:        
-        """
-***** Cmnd Args Specification
-"""
-        cmndArgsSpecDict = icm.CmndArgsSpecDict()
-        cmndArgsSpecDict.argsDictAdd(
-            argPosition="0&9999",
-            argName="cmndArgs",
-            argChoices=[],
-            argDescription="Exec all or those specified as functions.",
-        )
-
-        return cmndArgsSpecDict
-
-
-####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndDocStr(self):
-####+END:        
-        return """
-***** TODO [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Place holder for this commands doc string.
-"""
-
-
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "listReposOfOrgs" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "9999" :asFunc "" :interactiveP ""
-"""
-*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  ICM-Cmnd       :: /listReposOfOrgs/ parsMand= parsOpt= argsMin=0 argsMax=9999 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
-"""
-class listReposOfOrgs(icm.Cmnd):
-    cmndParamsMandatory = [ ]
-    cmndParamsOptional = [ ]
-    cmndArgsLen = {'Min': 0, 'Max': 9999,}
-
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        argsList=[],         # or Args-Input
-    ):
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs
-        else:
-            effectiveArgsList = argsList
-
-        callParamsDict = {}
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
-####+END:
-        cmndArgs = self.cmndArgsGet("0&9999", cmndArgsSpecDict, effectiveArgsList)
-
-        for each in cmndArgs:
-            if interactive:
-                #print("""retVal = {}()""".format(each))
-                pass
-
-        # headers = {'Content-type': 'application/json'}
-
-        # obtainTokenBody = {}
-        # obtainTokenBody['accessKey'] = akValue
-        # obtainTokenBody['secretKey'] = skValue
-
-
-        for each in cmndArgs:
-            #continue
-            #r = requests.post(apiUrl, json=obtainTokenBody, headers=headers, verify=False)
-            r = requests.get(each)            
-            if 200 <= r.status_code < 300:
-                #pprint.pprint(r.json())
-                responseBody = r.json()
-                pprint.pprint(responseBody)
-                reposListOfOrgProc(responseBody)        
-                #respData = responseBody['data']
-                #token = respData['id']
-                #print(token)
-                #return (token)
-            else:
-                print "API error. Status code = %s, response = %s" % (str(r.status_code), str(r.text))
-                return None
-
-
-        return cmndOutcome.set(
-            opError=icm.OpError.Success,
-            opResults=None,
-        )
-
-####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndArgsSpec(self):
-####+END:        
-        """
-***** Cmnd Args Specification
-"""
-        cmndArgsSpecDict = icm.CmndArgsSpecDict()
-        cmndArgsSpecDict.argsDictAdd(
-            argPosition="0&9999",
-            argName="cmndArgs",
-            argChoices=[],
-            argDescription="Exec all or those specified as functions.",
-        )
-
-        return cmndArgsSpecDict
-
-
-####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndDocStr(self):
-####+END:        
-        return """
-***** TODO [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Place holder for this commands doc string.
-"""
-
-
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "reposInfo" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "9999" :asFunc "" :interactiveP ""
-"""
-*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  ICM-Cmnd       :: /reposInfo/ parsMand= parsOpt= argsMin=0 argsMax=9999 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
-"""
-class reposInfo(icm.Cmnd):
-    cmndParamsMandatory = [ ]
-    cmndParamsOptional = [ ]
-    cmndArgsLen = {'Min': 0, 'Max': 9999,}
-
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        argsList=[],         # or Args-Input
-    ):
-        cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs
-        else:
-            effectiveArgsList = argsList
-
-        callParamsDict = {}
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
-####+END:
-        cmndArgs = self.cmndArgsGet("0&9999", cmndArgsSpecDict, effectiveArgsList)
-
-        for each in cmndArgs:
-            if interactive:
-                #print("""retVal = {}()""".format(each))
-                pass
-
-        # headers = {'Content-type': 'application/json'}
-
-        # obtainTokenBody = {}
-        # obtainTokenBody['accessKey'] = akValue
-        # obtainTokenBody['secretKey'] = skValue
-
-
-        for each in cmndArgs:
-            #continue
-            #r = requests.post(apiUrl, json=obtainTokenBody, headers=headers, verify=False)
-            r = requests.get(each)            
-            if 200 <= r.status_code < 300:
-                #pprint.pprint(r.json())
-                responseBody = r.json()
-                pprint.pprint(responseBody)
-                reposListOfOrgProc(responseBody)        
-                #respData = responseBody['data']
-                #token = respData['id']
-                #print(token)
-                #return (token)
-            else:
-                print "API error. Status code = %s, response = %s" % (str(r.status_code), str(r.text))
-                return None
-
-
-        return cmndOutcome.set(
-            opError=icm.OpError.Success,
-            opResults=None,
-        )
-
-####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndArgsSpec(self):
-####+END:        
-        """
-***** Cmnd Args Specification
-"""
-        cmndArgsSpecDict = icm.CmndArgsSpecDict()
-        cmndArgsSpecDict.argsDictAdd(
-            argPosition="0&9999",
-            argName="cmndArgs",
-            argChoices=[],
-            argDescription="Exec all or those specified as functions.",
-        )
-
-        return cmndArgsSpecDict
-
-
-####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndDocStr(self):
-####+END:        
-        return """
-***** TODO [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Place holder for this commands doc string.
-"""
-
+    
 
 ####+BEGIN: bx:icm:python:section :title "Supporting Classes And Functions"
 """
@@ -824,43 +435,11 @@ class reposInfo(icm.Cmnd):
 *  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Common/Generic Facilities -- Library Candidates*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
 """
 ####+END:
-
-####+BEGIN: bx:icm:python:func :funcName "orgsOfUserList" :funcType "anyOrNone" :retType "bool" :deco "" :argsList "reposList"
 """
-*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Func-anyOrNone :: /orgsOfUserList/ retType=bool argsList=(reposList)  [[elisp:(org-cycle)][| ]]
+*       /Empty/  [[elisp:(org-cycle)][| ]]
 """
-def orgsOfUserList(
-    orgsList,
-):
-####+END:
-   for each in orgsList:
-       print(each["url"])
 
-
-####+BEGIN: bx:icm:python:func :funcName "reposOfOrgProc" :funcType "anyOrNone" :retType "bool" :deco "" :argsList "reposList"
-"""
-*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Func-anyOrNone :: /reposOfOrgProc/ retType=bool argsList=(reposList)  [[elisp:(org-cycle)][| ]]
-"""
-def reposOfOrgList(
-    reposList,
-):
-####+END:
-   for each in reposList:
-       print(each["url"])
-
-
-####+BEGIN: bx:icm:python:func :funcName "reposInfoProc" :funcType "anyOrNone" :retType "bool" :deco "" :argsList "reposList"
-"""
-*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Func-anyOrNone :: /reposInfoProc/ retType=bool argsList=(reposList)  [[elisp:(org-cycle)][| ]]
-"""
-def reposInfoProc(
-    reposList,
-):
-####+END:
-   for each in reposList:
-       print(each["url"])
-
-       
+    
 ####+BEGIN: bx:icm:python:section :title "= =Framework::=   G_main -- Instead Of ICM Dispatcher ="
 """
 *  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *= =Framework::=   G_main -- Instead Of ICM Dispatcher =*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
