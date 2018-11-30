@@ -1,6 +1,6 @@
-======================
-bisos.bx-bases Scripts
-======================
+============
+unisos.utils
+============
 
 .. contents::
    :depth: 3
@@ -9,8 +9,7 @@ bisos.bx-bases Scripts
 Overview
 ========
 
-unisos.icmExamples: python scripts (Interactive Command Modules – ICM)
-to illustrate, examine and test ICM Features.
+unisos.utils: General purpose python utilities at unisos layer.
 
 Support
 =======
@@ -33,12 +32,12 @@ Installation
 
 ::
 
-    sudo pip install unisos.icmExamples
+    sudo pip install unisos.utils
 
 Usage
 =====
 
 ::
 
-    /usr/local/bin/icmStart.py
-    /usr/local/bin/icmExamples.py
+    ./bin/githubApiAccess.py
+    ./bin/githubApiReports.py
