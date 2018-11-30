@@ -17,7 +17,7 @@ def longDescription():
 
 
 #__version__ = get_version('unisos/icm/__init__.py')
-__version__ = '0.4'
+__version__ = '0.1'
 
 
 requires = [
@@ -29,15 +29,13 @@ requires = [
 #print('Requirements: %s' % ','.join(requires))
 
 scripts = [
-    "./bin/icmBegin.py",
-    "./bin/icmExamples.py",
-    "./bin/icmPkgBegin.py",
-    "./bin/nonIcmLibUser.py",
+    "./bin/githubApiAccess.py",
+    "./bin/githubApiReports.py",
 ]
 
 
 setuptools.setup(
-    name='unisos.icmExample',
+    name='unisos.utils',
     version=__version__,
     namespace_packages=['unisos'],
     packages=setuptools.find_packages(),

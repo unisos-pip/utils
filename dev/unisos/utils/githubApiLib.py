@@ -228,11 +228,11 @@ def commonParamsSpecify(
 ####+END:
 
 
-####+BEGIN: bx:icm:python:func :funcName "examples_libModuleCmnds" :funcType "anyOrNone" :retType "bool" :deco "" :argsList ""
+####+BEGIN: bx:icm:python:func :funcName "examples_githubApiAccess" :funcType "anyOrNone" :retType "bool" :deco "" :argsList ""
 """
-*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Func-anyOrNone :: /examples_libModuleCmnds/ retType=bool argsList=nil  [[elisp:(org-cycle)][| ]]
+*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Func-anyOrNone :: /examples_githubApiAccess/ retType=bool argsList=nil  [[elisp:(org-cycle)][| ]]
 """
-def examples_libModuleCmnds():
+def examples_githubApiAccess():
 ####+END:
     """
 ** Auxiliary examples to be commonly used.
@@ -241,36 +241,72 @@ def examples_libModuleCmnds():
     def menuItem(verbosity): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity=verbosity)            
     def execLineEx(cmndStr): icm.ex_gExecMenuItem(execLine=cmndStr)
 
-####+BEGIN: bx:icm:python:cmnd:subSection :title "Dev And Testing"
-        """
-**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *Dev And Testing*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
+    apiUrl_reposOfUser = "https://api.github.com/users/mohsenBanan/repos"
+    apiUrl_orgsOfUser = "https://api.github.com/users/mohsenBanan/orgs"
+    apiUrl_oneOrg = "https://api.github.com/orgs/ByStar"
+    apiUrl_oneRepo = "https://api.github.com/repos/mohsenBanan/ReposOverview"                      
+
+
+####+BEGIN: bx:icm:python:cmnd:subSection :title "List Repos Of Users"
+    """
+**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *List Repos Of User*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
 """
 ####+END:
+    icm.cmndExampleMenuChapter('*List Repos Of Users*')
 
-    icm.cmndExampleMenuChapter('*General Dev and Testing IIFs*')
-
-    cmndName = "unitTest"
-        
-    cmndArgs = ""; cps = cpsInit() # cps['icmsPkgName'] = icmsPkgName
+    cmndName = "listReposOfUsers"
+    cmndArgs = apiUrl_reposOfUser ; cps = cpsInit()
     menuItem(verbosity='none')
 
-####+BEGIN: bx:icm:python:cmnd:subSection :title "Remain In Sycn With Template"
-        """
-**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *Remain In Sycn With Template*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
+####+BEGIN: bx:icm:python:cmnd:subSection :title "List Orgs Of Users"
+    """
+**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *List Orgs Of Users*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
 """
 ####+END:
-        
-    icm.cmndExampleMenuChapter('*Remain In Sycn With Template*')
+    icm.cmndExampleMenuChapter('*List Orgs Of Users*')
 
-    templateFile = "/bisos/git/bxRepos/bisos-pip/examples/dev/bisos/examples/icmLibPkgBegin.py"
+    cmndName = "listOrgsOfUsers"
+    cmndArgs = apiUrl_orgsOfUser; cps = cpsInit()
+    menuItem(verbosity='none')
+
+####+BEGIN: bx:icm:python:cmnd:subSection :title "List Repos Of Orgs"
+    """
+**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *List Repos Of Orgs*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
+"""
+####+END:
+    icm.cmndExampleMenuChapter('*List Repos Of Orgs*')
+
+    cmndName = "listReposOfOrgs"
+    cmndArgs = apiUrl_oneOrg; cps = cpsInit()
+    menuItem(verbosity='none')
+
+####+BEGIN: bx:icm:python:cmnd:subSection :title "Repos Info"
+    """
+**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *Repos Info*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
+"""
+####+END:
+    icm.cmndExampleMenuChapter('*Repos Info*')
+
+    cmndName = "reposInfo"
+    cmndArgs = apiUrl_oneRepo; cps = cpsInit()
+    menuItem(verbosity='none')
+
+
+####+BEGIN: bx:icm:python:cmnd:subSection :title "Pipeline Examples"
+    """
+**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *Pipeline Examples*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
+"""
+####+END:
+    icm.cmndExampleMenuChapter('*Combined Pipeline Example*')
     thisFile = __file__
-
-    execLineEx("""diff {thisFile} {templateFile}""".format(thisFile=thisFile, templateFile=templateFile))
-    execLineEx("""cp {thisFile} {templateFile}""".format(thisFile=thisFile, templateFile=templateFile))
-    execLineEx("""cp {templateFile} {thisFile}""".format(thisFile=thisFile, templateFile=templateFile))                
-
-    return
-
+    execLineEx("""{thisFile} -i listOrgsOfUsers {apiUrl_orgsOfUser} | xargs {thisFile2} -i listReposOfOrgs"""
+               .format(
+                   thisFile=thisFile,
+                   apiUrl_orgsOfUser=apiUrl_orgsOfUser,
+                   thisFile2=thisFile,
+               )
+    )
+        
 
 ####+BEGIN: bx:dblock:python:section :title "Lib Module Commands"
 """
