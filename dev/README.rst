@@ -9,7 +9,10 @@ unisos.utils
 Overview
 ========
 
-unisos.utils: General purpose python utilities at unisos layer.
+unisos.utils: General purpose python utilities at unisos layer. (shRun,
+etc.)
+
+shRun is an adoption of invoke.run for ICMs.
 
 Support
 =======
@@ -39,5 +42,8 @@ Usage
 
 ::
 
-    ./bin/githubApiAccess.py
-    ./bin/githubApiReports.py
+    from unisos.utils import shRun
+
+::
+
+    ./bin/icmShRunExample.py

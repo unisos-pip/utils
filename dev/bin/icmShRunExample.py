@@ -6,7 +6,7 @@
 
 ####+BEGIN: bx:icm:python:top-of-file :partof "bystar" :copyleft "halaal+minimal"
 """
-*  This file:/bisos/git/bxRepos/unisos-pip/utils/dev/bin/newIcmScript.py :: [[elisp:(org-cycle)][| ]]
+*  This file:/bisos/git/bxRepos/unisos-pip/shRun/dev/bin/icmShRunExample.py :: [[elisp:(org-cycle)][| ]]
  is part of The Libre-Halaal ByStar Digital Ecosystem. http://www.by-star.net
  *CopyLeft*  This Software is a Libre-Halaal Poly-Existential. See http://www.freeprotocols.org
  A Python Interactively Command Module (PyICM).
@@ -19,11 +19,11 @@
 *  [[elisp:(org-cycle)][| *ICM-INFO:* |]] :: Author, Copyleft and Version Information
 """
 ####+BEGIN: bx:icm:python:name :style "fileName"
-__icmName__ = "newIcmScript"
+__icmName__ = "icmShRunExample"
 ####+END:
 
 ####+BEGIN: bx:global:timestamp:version-py :style "date"
-__version__ = "201811305151"
+__version__ = "201812271310"
 ####+END:
 
 ####+BEGIN: bx:global:icm:status-py :status "Production"
@@ -72,9 +72,24 @@ from unisos import icm
 
 from blee.icmPlayer import bleep
 
+from unisos.utils import shRun
+
+# import os
+# import sys
+# import subprocess
+# import traceback
+# import time
+# import string
+# import random
+# import requests
+# import uuid
+# import datetime
+# import pprint
+
 g_importedCmnds = {        # Enumerate modules from which CMNDs become invokable
     'bleep': bleep.__file__,
 }
+    
 
 ####+BEGIN: bx:icm:python:section :title "= =Framework::= ICM  Description (Overview) ="
 """
@@ -251,17 +266,6 @@ def g_argsExtraSpecify(
         argparseLongOpt='--version',
     )
 
-    icmParams.parDictAdd(
-        parName='pkgSrc',
-        parDescription="Package Source",
-        parDataType=None,
-        parDefault=None,
-        parChoices=list(),
-        parScope=icm.ICM_ParamScope.TargetParam,
-        argparseShortOpt=None,
-        argparseLongOpt='--pkgSrc',
-    )
-
     bleep.commonParamsSpecify(icmParams)    
        
     icm.argsparseBasedOnIcmParams(parser, icmParams)
@@ -296,7 +300,7 @@ class examples(icm.Cmnd):
 
 ####+END:
         def cpsInit(): return collections.OrderedDict()
-        def menuItem(): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity='little')
+        def menuItem(verbosity): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity=verbosity)
         def execLineEx(cmndStr): icm.ex_gExecMenuItem(execLine=cmndStr)
 
         logControler = icm.LOG_Control()
@@ -307,37 +311,17 @@ class examples(icm.Cmnd):
         icm.G_commonBriefExamples()
 
         bleep.examples_icmBasic()
-        
-####+BEGIN: bx:icm:python:cmnd:subSection :title "Dev And Testing"
+
+####+BEGIN: bx:icm:python:cmnd:subSection :title "Create (Update) Vagrant File -- With Defaults"
         """
-**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *Dev And Testing*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
+**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *Create (Update) Vagrant File -- With Defaults*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
 """
 ####+END:
+        icm.cmndExampleMenuChapter('*Simple Example Of shRun*')
 
-        icm.cmndExampleMenuChapter('*General Dev and Testing IIFs*')
-
-        cmndName = "unitTest"
+        cmndName = "shRunSimple" ; cmndArgs = ""
+        cps=cpsInit() ; menuItem(verbosity='none')
         
-        cmndArgs = ""; cps = cpsInit(); # cps['icmsPkgName'] = icmsPkgName 
-        menuItem()
-        icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity='full')        
-
-        
-####+BEGIN: bx:icm:python:cmnd:subSection :title "Remain In Sycn With Template"
-        """
-**  [[elisp:(beginning-of-buffer)][Top]] ============== [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]          *Remain In Sycn With Template*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
-"""
-####+END:
-        
-        icm.cmndExampleMenuChapter('*Remain In Sycn With Template*')
-
-        #templateFile = "/de/bx/nne/dev-py/pypi/pkgs/bisos/examples/dev/bin/icmBegin.py"
-        templateFile = "/de/bx/nne/dev-py/pypi/pkgs/unisos/icmExamples/dev/bin/icmBegin.py"
-        thisFile = __file__
-
-        execLineEx("""diff {thisFile} {templateFile}""".format(thisFile=thisFile, templateFile=templateFile))
-        execLineEx("""cp {thisFile} {templateFile}""".format(thisFile=thisFile, templateFile=templateFile))
-        execLineEx("""cp {templateFile} {thisFile}""".format(thisFile=thisFile, templateFile=templateFile))                
 
         return(cmndOutcome)
 
@@ -359,67 +343,51 @@ class examples(icm.Cmnd):
 """
 ####+END:
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "unitTest" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "1" :asFunc "" :interactiveP ""
+
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "shRunSimple" :comment "" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  ICM-Cmnd       :: /unitTest/ parsMand= parsOpt= argsMin=0 argsMax=1 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  ICM-Cmnd       :: /shRunSimple/ parsMand= parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
-class unitTest(icm.Cmnd):
+class shRunSimple(icm.Cmnd):
     cmndParamsMandatory = [ ]
     cmndParamsOptional = [ ]
-    cmndArgsLen = {'Min': 0, 'Max': 1,}
+    cmndArgsLen = {'Min': 0, 'Max': 0,}
 
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
         interactive=False,        # Can also be called non-interactively
-        argsList=[],         # or Args-Input
     ):
         cmndOutcome = self.getOpOutcome()
         if interactive:
             if not self.cmndLineValidate(outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs
-        else:
-            effectiveArgsList = argsList
 
         callParamsDict = {}
         if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
             return cmndOutcome
 
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
 ####+END:
+        #
+        # cmndArgs are in the form of name=value  to become additional vagrant env vars
+        #
 
-        myName=self.myName()
-        thisOutcome = icm.OpOutcome(invokerName=myName)
+        cmnd = """\
+cat /etc/motd;
+sleep 5;
+echo ZZZ VAGRANT_VAGRANTFILE={vagrantFile} vagrant up""".format(vagrantFile="someFileName")
 
-        print G.icmInfo
+        #result = run(cmnd, hide=True, warn=True)
+        #result = shRun.bash(cmnd, hide=False, warn=True, echo=True)
+        result = shRun.bash(cmnd,)        
+        print(result.ok)
+        #print(result.stdout.splitlines()[-1])
+        #print(result.stdout)        
 
-        for eachArg in effectiveArgsList:
-            icm.ANN_here("{}".format(eachArg))
+        return cmndOutcome.set(
+            opError=icm.OpError.Success,
+            opResults=None,
+        )
 
-        print (icm.__file__)
-        print sys.path
-
-        import imp
-        print(imp.find_module('unisos/icm'))
-
-        @ucf.runOnceOnly
-        def echo(str):
-            print str
-            
-        echo("first")
-        echo("second")  # Should not run
-    
-        return thisOutcome
-    
-    def cmndDocStr(self): return """
-** Place holder for ICM's experimental or test code.  [[elisp:(org-cycle)][| ]]
- You can use this Cmnd for rapid prototyping and testing of newly developed functions.
-"""
-
-
-    
 
 ####+BEGIN: bx:icm:python:section :title "Supporting Classes And Functions"
 """
@@ -439,7 +407,7 @@ class unitTest(icm.Cmnd):
 *       /Empty/  [[elisp:(org-cycle)][| ]]
 """
 
-    
+       
 ####+BEGIN: bx:icm:python:section :title "= =Framework::=   G_main -- Instead Of ICM Dispatcher ="
 """
 *  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *= =Framework::=   G_main -- Instead Of ICM Dispatcher =*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 

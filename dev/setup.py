@@ -17,11 +17,12 @@ def longDescription():
 
 
 #__version__ = get_version('unisos/icm/__init__.py')
-__version__ = '0.3'
+__version__ = '0.4'
 
 
 requires = [
     'unisos.icm',
+    'invoke',
 ]
 
 
@@ -29,7 +30,7 @@ requires = [
 #print('Requirements: %s' % ','.join(requires))
 
 scripts = [
-    "./bin/placeHolderUtilScript.py",
+    "./bin/icmShRunExample.py",
 ]
 
 

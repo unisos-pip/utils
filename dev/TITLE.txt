@@ -1,2 +1,2 @@
-unisos.utils: General purpose python utilities at unisos layer.
+unisos.utils: General purpose python utilities at unisos layer. (shRun, etc.)
 
