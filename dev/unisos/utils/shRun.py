@@ -110,17 +110,54 @@ from invoke import run
 """
 ####+END:
 
-####+BEGINNOT: bx:icm:python:func :funcName "bash" :funcType "anyOrNone" :retType "result" :deco "" :argsList "command **kwargs"
+####+BEGINNOT: bx:icm:python:func :funcName "bash" :funcType "anyOrNone" :retType "result" :deco "default" :argsList "command **kwargs"
 """
-*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Func-anyOrNone :: /bash/ retType=result argsList=(command **kwargs)  [[elisp:(org-cycle)][| ]]
+*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Func-anyOrNone :: /bash/ retType=result argsList=(command **kwargs) deco=default  [[elisp:(org-cycle)][| ]]
 """
+@icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
 def bash(
     command,
     **kwargs
 ):
 ####+END:
-    """Based on verbosity level, add appropriate kwargs."""
-    result = run(command, hide=False, warn=True, echo=True)
+    """Based on verbosity level, add appropriate kwargs.
+
+Based on --verbosity set hide=False
+Based on --callTracking set echo=True
+"""
+
+    #icm.TM_here("Args: {}".format(args))
+    for key in kwargs:
+        icm.TM_here("keyword arg: %s: %s" % (key, kwargs[key]))
+
+    specifiedArg_hide = kwargs.pop('hide', None)
+    specifiedArg_echo = kwargs.pop('echo', None)
+    specifiedArg_warn = kwargs.pop('warn', None)
+
+    verbosityLevel = icm.icmRunArgs_verbosityLevel()
+    
+    if specifiedArg_hide is not None:
+        kwargs['hide'] = specifiedArg_hide
+    else:
+        if verbosityLevel >= 30:
+            #kwargs['hide'] = True    # True is different from 'both' in that it overrides echo=True
+            kwargs['hide'] = 'both'
+        else:
+            kwargs['hide'] = False
+
+    if specifiedArg_echo is not None:
+        kwargs['echo'] = specifiedArg_echo
+    else:
+        if icm.icmRunArgs_isCallTrackingMonitorOn():
+            kwargs['echo'] = True
+        else:
+            kwargs['echo'] = False
+
+    
+    #result = run(command, hide=True, warn=True, echo=True)
+    #print(kwargs)
+    
+    result = run(command, **kwargs)
     return result
 
     

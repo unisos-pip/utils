@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 """\
-*    *[Summary]* :: An =ICM=: a beginning template for development of new ICMs.
+*    *[Summary]* :: An =ICM=: example to show use of shRun.bash(cmnd) and its corresponding ICM visibility options.
 """
 
 ####+BEGIN: bx:icm:python:top-of-file :partof "bystar" :copyleft "halaal+minimal"
@@ -73,18 +73,6 @@ from unisos import icm
 from blee.icmPlayer import bleep
 
 from unisos.utils import shRun
-
-# import os
-# import sys
-# import subprocess
-# import traceback
-# import time
-# import string
-# import random
-# import requests
-# import uuid
-# import datetime
-# import pprint
 
 g_importedCmnds = {        # Enumerate modules from which CMNDs become invokable
     'bleep': bleep.__file__,
@@ -300,7 +288,7 @@ class examples(icm.Cmnd):
 
 ####+END:
         def cpsInit(): return collections.OrderedDict()
-        def menuItem(verbosity): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity=verbosity)
+        def menuItem(verbosity, **kwargs): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity=verbosity, **kwargs)
         def execLineEx(cmndStr): icm.ex_gExecMenuItem(execLine=cmndStr)
 
         logControler = icm.LOG_Control()
@@ -320,9 +308,17 @@ class examples(icm.Cmnd):
         icm.cmndExampleMenuChapter('*Simple Example Of shRun*')
 
         cmndName = "shRunSimple" ; cmndArgs = ""
-        cps=cpsInit() ; menuItem(verbosity='none')
-        
+        cps=cpsInit() ; menuItem(verbosity='none', comment="# run cmnds -- dont echo cmnds and don't show stdout/err")
 
+        cmndName = "shRunSimple" ; cmndArgs = ""
+        cps=cpsInit() ; menuItem(verbosity='full', comment="# full verbosity")
+
+        cmndName = "shRunSimple" ; cmndArgs = ""
+        cps=cpsInit() ; menuItem(verbosity='little', comment="# show stdout/err but dont echo cmnds")
+
+        cmndName = "shRunSimple" ; cmndArgs = ""
+        cps=cpsInit() ; cps['callTrackings'] = 'monitor+' ; menuItem(verbosity='little', comment="# echo cmnds and show stdout/err")
+        
         return(cmndOutcome)
 
     def cmndDocStr(self): return """
@@ -371,17 +367,35 @@ class shRunSimple(icm.Cmnd):
         # cmndArgs are in the form of name=value  to become additional vagrant env vars
         #
 
-        cmnd = """\
-cat /etc/motd;
-sleep 5;
-echo ZZZ VAGRANT_VAGRANTFILE={vagrantFile} vagrant up""".format(vagrantFile="someFileName")
+#         cmnd = """\
+# cat /etc/motd;
+# sleep 5;
+# echo ZZZ VAGRANT_VAGRANTFILE={vagrantFile} vagrant up""".format(vagrantFile="someFileName")
 
-        #result = run(cmnd, hide=True, warn=True)
-        #result = shRun.bash(cmnd, hide=False, warn=True, echo=True)
-        result = shRun.bash(cmnd,)        
+        cmnd = """\
+echo "There are many different ways of running a bash command.";
+echo "Just running shRun.bash(cmnd) leaves it to -v 20 to enable stdout, stderr verbosity";
+echo "Just running shRun.bash(cmnd) leaves it to --callTrackings monitor+ for input verbosity";
+echo "Next we are adding a sleep to have a delay between cmnd echo and output";
+sleep 5;
+echo "VAGRANT_VAGRANTFILE={vagrantFile} vagrant up"\
+""".format(vagrantFile="someFileName")
+
+        
+        result = shRun.bash(cmnd)
+
+        print("=========== Obtained Result: ==============")
         print(result.ok)
-        #print(result.stdout.splitlines()[-1])
-        #print(result.stdout)        
+        print(result.stdout)
+        print(result.stderr)
+
+        cmnd = """\
+echo "You can also specify your verbosity parameters directly.";
+echo "For example: shRun.bash(cmnd, hide=False, warn=True, echo=True)";
+echo "These explicit specifications will not be overwritten with command line options";\
+"""
+
+        result = shRun.bash(cmnd, hide=False, warn=True, echo=True)
 
         return cmndOutcome.set(
             opError=icm.OpError.Success,
