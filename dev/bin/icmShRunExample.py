@@ -366,12 +366,6 @@ class shRunSimple(icm.Cmnd):
         #
         # cmndArgs are in the form of name=value  to become additional vagrant env vars
         #
-
-#         cmnd = """\
-# cat /etc/motd;
-# sleep 5;
-# echo ZZZ VAGRANT_VAGRANTFILE={vagrantFile} vagrant up""".format(vagrantFile="someFileName")
-
         cmnd = """\
 echo "There are many different ways of running a bash command.";
 echo "Just running shRun.bash(cmnd) leaves it to -v 20 to enable stdout, stderr verbosity";
@@ -396,6 +390,18 @@ echo "These explicit specifications will not be overwritten with command line op
 """
 
         result = shRun.bash(cmnd, hide=False, warn=True, echo=True)
+
+        cmnd = """\
+dateTag=$(date)
+echo "Current time is: ${dateTag}"
+function funcName {
+    echo "Inside of $0"
+    return
+}
+funcName
+"""
+
+        result = shRun.bash(cmnd)
 
         return cmndOutcome.set(
             opError=icm.OpError.Success,
