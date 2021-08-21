@@ -35,15 +35,15 @@ Installation
 
 ::
 
-    sudo pip install unisos.utils
+   sudo pip install unisos.utils
 
 Usage
 =====
 
 ::
 
-    from unisos.utils import shRun
+   from unisos.utils import shRun
 
 ::
 
-    ./bin/icmShRunExample.py
+   ./bin/icmShRunExample.py
