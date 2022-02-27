@@ -57,8 +57,8 @@ _CommentEnd_
 ####+BEGIN: bx:dblock:ploneProc:bash:nodesList :types ""
 # {{{ DBLOCK-nodesList
 nodesList="
-unisos2
 bin
+unisos2
 "
 # }}} DBLOCK-nodesList
 ####+END:
